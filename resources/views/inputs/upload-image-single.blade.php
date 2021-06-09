@@ -87,6 +87,7 @@
 
         @if (!$image && !$readonly)
             <div
+                dusk="crop-upload-button"
                 wire:key="upload-button"
                 class="flex absolute top-2 right-2 bottom-2 left-2 flex-col justify-center items-center space-y-2 rounded-xl cursor-pointer pointer-events-none"
                 role="button"
@@ -160,11 +161,11 @@
         @endslot
 
         @slot('buttons')
-            <button class="{{ $cropCancelButtonClass }}" @click="hide">
+            <button class="{{ $cropCancelButtonClass }}" @click="hide"  dusk="crop-cancel-button">
                 {{ $cropCancelButton }}
             </button>
 
-            <button class="{{ $cropSaveButtonClass }}" @click="Livewire.emit('saveCroppedImage')">
+            <button class="{{ $cropSaveButtonClass }}" @click="Livewire.emit('saveCroppedImage')" dusk="crop-save-button">
                 @if($cropSaveIcon)
                     <x-ark-icon :name="$cropSaveIcon" size="sm" class="inline my-auto mr-2"/>
                 @endif
