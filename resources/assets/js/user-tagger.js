@@ -1,4 +1,9 @@
-window.UserTagger = (endpoint, contextUsers, maxLength = null) => {
+window.UserTagger = (
+    endpoint,
+    contextUsers,
+    maxLength = null,
+    plainText = false
+) => {
     const tribute = new Tribute({
         selectClass: "highlighted",
         containerClass:
@@ -141,6 +146,14 @@ window.UserTagger = (endpoint, contextUsers, maxLength = null) => {
             });
 
             editor.addEventListener("blur", (e) => this.updateValue(e));
+
+            if (plainText) {
+                try {
+                    editor.contentEditable = "plaintext-only";
+                } catch (e) {
+                    // Browser doesn't support plaintext
+                }
+            }
         },
     };
 };

@@ -13,16 +13,18 @@
     'usersInContext' => [],
     'endpoint'       => '/api/users/autocomplete',
     'placeholder'    => '',
+    'plainText'      => true,
 ])
 
 <div
     x-data="UserTagger(
         '{{ $endpoint }}',
         {{ json_encode($usersInContext) }},
-        {{ $maxlength === null ? 'null' : $maxlength }}
+        {{ $maxlength === null ? 'null' : $maxlength }},
+        {{ $plainText ? 'true' : 'false' }}
     )"
     x-init="init"
-    class="{{ $class }} ark-user-tagger--input"
+    class="{{ $class }} ark-user-tagger--input ark-user-tagger--plain-text"
 >
     <div class="input-group">
         @unless ($hideLabel)
@@ -37,7 +39,14 @@
         @endunless
 
         <div class="input-wrapper" >
-            <input x-ref="input" type="hidden" id="{{ $id ?? $name }}" wire:model="{{ $model ?? $name }}" name="{{ $name }}" />
+            <input
+                x-ref="input"
+                type="hidden"
+                id="{{ $id ?? $name }}"
+                wire:model="{{ $model ?? $name }}"
+                name="{{ $name }}"
+            />
+
             <div
                 wire:ignore
                 x-ref="editor"
