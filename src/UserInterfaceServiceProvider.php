@@ -2,6 +2,7 @@
 
 namespace ARKEcosystem\UserInterface;
 
+use ARKEcosystem\UserInterface\Components\ContactForm;
 use ARKEcosystem\UserInterface\Components\FlashMessage;
 use ARKEcosystem\UserInterface\Components\HoneyPot;
 use ARKEcosystem\UserInterface\Components\Toast;
@@ -289,6 +290,7 @@ class UserInterfaceServiceProvider extends ServiceProvider
      */
     private function registerLivewireComponents(): void
     {
+        Livewire::component('contact-form', ContactForm::class);
         Livewire::component('flash-message', FlashMessage::class);
         Livewire::component('toast', Toast::class);
     }
