@@ -27,23 +27,3 @@ it('should render the component with a single item with query parameters', funct
         ]))
         ->contains('http://localhost?hello=world');
 });
-
-it('should render the component with children', function (): void {
-    Route::view('/', 'ark::navbar.items.mobile')->name('home');
-    Route::view('/post', 'ark::navbar.items.mobile')->name('post');
-
-    $this
-        ->assertView('ark::navbar.items.mobile', createAttributes([
-            'navigation' => [
-                [
-                    'route'    => 'home',
-                    'label'    => 'Home',
-                    'image'    => 'special-icon',
-                    'children' => [
-                        ['route' => 'post', 'label' => 'Post'],
-                    ],
-                ],
-            ],
-        ]))
-        ->contains('http://localhost/post');
-});

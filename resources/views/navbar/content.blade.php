@@ -4,7 +4,7 @@
     @endisset
 
     @isset($notifications)
-        @include('ark::navbar.notifications', ['class' => 'hidden md:block'])
+        @include('ark::navbar.notifications', ['class' => $notificationsButtonClasses ?? '' ])
     @endisset
 
     @isset($profile)
@@ -13,9 +13,9 @@
         @include('ark::navbar.profile')
     @endisset
 @else
-    <div class="flex items-center sm:ml-3 sm:space-x-4">
+    <div class="flex items-center ml-5 sm:ml-4 sm:space-x-6">
         @if(Route::has('register'))
-            <a href="{{ route('register') }}" class="hidden md:block link">@lang('actions.sign_up')</a>
+            <a href="{{ route('register') }}" class="hidden font-semibold sm:block link">@lang('actions.sign_up')</a>
         @endif
 
         @if(Route::has('login'))

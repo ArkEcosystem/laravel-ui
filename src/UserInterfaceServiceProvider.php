@@ -274,6 +274,7 @@ class UserInterfaceServiceProvider extends ServiceProvider
         // Navigation
         Blade::component('ark::navbar', 'ark-navbar');
         Blade::component('ark::navbar.link-mobile', 'ark-navbar-link-mobile');
+        Blade::component('ark::navbar.hamburger', 'ark-navbar-hamburger');
 
         // Font Loader
         Blade::component('ark::font-loader', 'ark-font-loader');

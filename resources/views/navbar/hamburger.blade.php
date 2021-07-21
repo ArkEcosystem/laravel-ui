@@ -10,6 +10,7 @@
         'lg' => 'lg:hidden',
         'xl' => 'xl:hidden',
     ][$breakpoint];
+
 @endphp
 
 <div class="flex items-center {{ $breakpointClass }}">
@@ -23,9 +24,13 @@
         </span>
 
         @isset($allNotificationsIndicator)
-        {{ $allNotificationsIndicator }}
+            {{ $allNotificationsIndicator }}
         @endisset
     </button>
 
-    <span class="hidden h-5 border-r md:block md:mr-4 md:ml-6 border-theme-secondary-300 dark:border-theme-secondary-800"></span>
+    <span class="block pr-3 ml-7 h-7 border-l border-theme-secondary-300 dark:border-theme-secondary-800"></span>
 </div>
+
+
+
+
