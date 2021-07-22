@@ -5,6 +5,7 @@
     'inline'    => false,
     'allowWrap' => false,
     'small'     => false,
+    'noIcon'    => false,
 ])
 
 <a
@@ -13,11 +14,13 @@
     target="_blank"
     rel="noopener nofollow noreferrer"
 >
-    <span>{{ $text }}</span>
+    <span>{{ $slot ?? $text }}</span>
 
-    <x-ark-icon
-        name="link"
-        :size="$small ? 'xs' : 'sm'"
-        :class="'flex-shrink-0 '.($inline ? 'inline mr-1 -mt-1' : 'mr-2')"
-    />
+    @unless($noIcon)
+        <x-ark-icon
+            name="link"
+            :size="$small ? 'xs' : 'sm'"
+            :class="'flex-shrink-0 '.($inline ? 'inline mr-1 -mt-1' : 'mr-2')"
+        />
+    @endunless
 </a>

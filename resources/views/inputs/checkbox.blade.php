@@ -9,6 +9,7 @@
     'value'                 => null,
     'checked'               => false,
     'disabled'              => false,
+    'alpine'                => false,
     'right'                 => false
 ])
 
@@ -38,6 +39,7 @@
                 @if($value) value="{{ $value }}" @endif
                 @if($checked) checked @endif
                 @if($disabled) disabled @endif
+                @if($alpine) @click="{{ $alpine }}" @endif
             />
         </div>
 

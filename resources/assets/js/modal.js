@@ -8,33 +8,33 @@ const Modal = {
     previousPaddingRight: undefined,
     previousNavPaddingRight: undefined,
 
-    defaultOptions: {
+    defaultSettings: {
         reserveScrollBarGap: true,
         reserveNavScrollBarGap: true,
     },
 
-    onModalOpened(scrollable, options = Modal.defaultOptions) {
-        if (options.reserveScrollBarGap) {
+    onModalOpened(scrollable, settings = Modal.defaultSettings) {
+        if (settings.reserveScrollBarGap) {
             this.reserveModalScrollBarGap(scrollable);
         }
 
-        if (options.reserveNavScrollBarGap) {
+        if (settings.reserveNavScrollBarGap) {
             this.reserveNavScrollBarGap(scrollable);
         }
 
         disableBodyScroll(scrollable, {
-            reserveScrollBarGap: !!options.reserveScrollBarGap,
+            reserveScrollBarGap: !!settings.reserveScrollBarGap,
         });
 
         scrollable.focus();
     },
 
-    onModalClosed(scrollable, options = Modal.defaultOptions) {
-        if (options.reserveScrollBarGap) {
+    onModalClosed(scrollable, settings = Modal.defaultSettings) {
+        if (settings.reserveScrollBarGap) {
             this.restoreModalScrollBarGap(scrollable);
         }
 
-        if (options.reserveNavScrollBarGap) {
+        if (settings.reserveNavScrollBarGap) {
             this.restoreNavScrollBarGap(scrollable);
         }
 
@@ -48,7 +48,7 @@ const Modal = {
     alpine(
         extraData = {},
         modalName = "",
-        eventOptions = Modal.defaultOptions
+        eventSettings = Modal.defaultSettings
     ) {
         return {
             name: modalName,
@@ -57,12 +57,13 @@ const Modal = {
             onBeforeShow: false,
             onHidden: false,
             onShown: false,
+            options: null,
             init() {
                 const scrollable = this.getScrollable();
                 if (this.name) {
-                    Livewire.on("openModal", (modalName) => {
+                    Livewire.on("openModal", (modalName, ...options) => {
                         if (this.name === modalName) {
-                            this.show();
+                            this.show(options);
                         }
                     });
 
@@ -74,39 +75,43 @@ const Modal = {
                 }
 
                 this.$watch("shown", (shown) => {
-                    if (typeof this.onBeforeShow === "function") {
-                        this.onBeforeShow();
+                    if (shown && typeof this.onBeforeShow === "function") {
+                        this.onBeforeShow(this.options);
                     }
 
-                    if (typeof this.onBeforeHide === "function") {
-                        this.onBeforeHide();
+                    if (!shown && typeof this.onBeforeHide === "function") {
+                        this.onBeforeHide(this.options);
                     }
 
                     this.$nextTick(() => {
                         if (shown) {
                             if (typeof this.onShown === "function") {
-                                this.onShown();
+                                this.onShown(this.options);
                             }
 
-                            Modal.onModalOpened(scrollable, eventOptions);
+                            Modal.onModalOpened(scrollable, eventSettings);
                         } else {
                             if (typeof this.onHidden === "function") {
-                                this.onHidden();
+                                this.onHidden(this.options);
                             }
 
-                            Modal.onModalClosed(scrollable, eventOptions);
+                            Modal.onModalClosed(scrollable, eventSettings);
                         }
                     });
                 });
 
                 if (this.shown) {
-                    Modal.onModalOpened(scrollable, eventOptions);
+                    Modal.onModalOpened(scrollable, eventSettings);
                 }
             },
             hide() {
+                this.options = null;
+
                 this.shown = false;
             },
-            show() {
+            show(options) {
+                this.options = options;
+
                 this.shown = true;
             },
             getScrollable() {
@@ -117,18 +122,18 @@ const Modal = {
         };
     },
 
-    livewire(extraData = {}, eventOptions = Modal.defaultOptions) {
+    livewire(extraData = {}, eventSettings = Modal.defaultSettings) {
         return {
             init() {
                 const scrollable = this.getScrollable();
 
                 this.$wire.on("modalClosed", () => {
                     this.$nextTick(() => {
-                        Modal.onModalClosed(scrollable, eventOptions);
+                        Modal.onModalClosed(scrollable, eventSettings);
                     });
                 });
 
-                Modal.onModalOpened(scrollable, eventOptions);
+                Modal.onModalOpened(scrollable, eventSettings);
             },
             getScrollable() {
                 const { modal } = this.$refs;

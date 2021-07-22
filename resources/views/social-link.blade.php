@@ -1,4 +1,5 @@
 <a
+    {{ $attributes }}
     href="{{ $url }}"
     target="_blank"
     rel="noopener noreferrer"

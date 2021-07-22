@@ -13,6 +13,7 @@
 ])
 
 <div
+    {{ $attributes }}
     x-ref="modal"
     data-modal
     x-cloak
